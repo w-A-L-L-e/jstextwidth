@@ -1,0 +1,119 @@
+<html>
+  <body>
+    <style>
+      body {
+        font-size: 20px;
+        background-color: #ddd;
+        width: 900px;
+        margin: auto;
+        padding-top: 30px;
+      }
+
+      pre {
+        font-size: 14px;
+        background-color: #004;
+        color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+      }
+
+      #test1 {
+        width: 500px;
+        border: 1px solid #009;
+        margin-bottom: 20px;
+        background-color: efefef;
+        border-radius: 10px;
+      }
+
+      #test2 {
+        width: 500px;
+        font-family: Verdana;
+        font-size: 24px;
+        border: 1px solid #090;
+        background-color: efefef;
+        border-radius: 10px;
+      }
+    </style>
+
+    <h1>getTextWidth demo</h1>
+
+    <p>
+      Test divs are 500px wide. So if you find a string close to width you can
+      see it works correctly. We create a hidden div in javascript and apply
+      optional font size and family if passed . We then compute the width. By
+      using overflow scroll and visibility hidden it doesnt affect your pages
+      viewport:
+    </p>
+
+    <h2>Test1:</h2>
+    <div id="test1"></div>
+
+    <h2>Test2:</h2>
+    <div id="test2"></div>
+
+    <h2>Source code</h2>
+    <pre>
+
+function getTextWidth(txt, font_family = null, font_size = null) {
+  let md = document.createElement("div");
+  let body = document.getElementsByTagName("body")[0];
+  body.appendChild(md);
+  md.style.height = "0px";
+  md.style.overflowX = "scroll";
+  md.style.display = "inline-block";
+  md.style.textWrap = "nowrap";
+  md.style.visibility = "hidden";
+
+  if (font_family) md.style.fontFamily = font_family;
+  if (font_size) md.style.fontSize = font_size;
+
+  md.innerHTML = title;
+  return md.clientWidth;
+}
+
+let text_width = getTextWidth(title);                       // use default document font and size
+let text_width2 = getTextWidth(title, "Verdana", "24px");   // specify custom font and size
+    </pre>
+
+    <script>
+      function getTextWidth(txt, font_family = null, font_size = null) {
+        // create a hidden div to compute width of a piece of text
+        let md = document.createElement("div");
+        let body = document.getElementsByTagName("body")[0];
+        body.appendChild(md);
+        md.style.height = "0px";
+        md.style.overflowX = "scroll";
+        md.style.display = "inline-block";
+        md.style.textWrap = "nowrap";
+        md.style.visibility = "hidden";
+
+        if (font_family) md.style.fontFamily = font_family;
+        if (font_size) md.style.fontSize = font_size;
+
+        md.innerHTML = title;
+        return md.clientWidth;
+      }
+
+      function showTest1(txt, width) {
+        let test1 = document.getElementById("test1");
+        test1.innerHTML = txt + "<br/><br/>" + "width computed = " + width;
+        console.log("test using default font", text_width);
+      }
+
+      function showTest2(txt, width) {
+        let test2 = document.getElementById("test2");
+        test2.innerHTML = txt + "<br/><br/>" + "width computed = " + width;
+      }
+
+      let title = "Dit is een lange titel van een of audio 123456789....";
+
+      // test1 use default document font and size:
+      let text_width = getTextWidth(title);
+      showTest1(title, text_width);
+
+      // test 2 : set font + size explicitly
+      let text_width2 = getTextWidth(title, "Verdana", "24px");
+      showTest2(title, text_width2);
+    </script>
+  </body>
+</html>
